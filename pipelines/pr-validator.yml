@@ -1,0 +1,20 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger: none
+
+pool:
+  vmImage: ubuntu-latest
+
+stages:
+  - stage: NET_Validate
+    jobs:
+      - job: validation
+        continueOnError: false
+        steps:
+
+        - script: dotnet build
+          displayName: Build
+          workingDirectory: '$(System.DefaultWorkingDirectory)/FunctionsTest'
