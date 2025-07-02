@@ -22,3 +22,16 @@ steps:
   inputs:
     PathtoPublish: '$(System.DefaultWorkingDirectory)/build$(Build.BuildId).zip'
     artifactName: 'drop'
+- task: DownloadBuildArtifacts@1 # Add this at the end of your file
+  inputs:
+    buildType: 'current'
+    downloadType: 'single'
+    artifactName: 'drop'
+    itemPattern: '**/*.zip'
+    downloadPath: '$(System.ArtifactsDirectory)'
+- task: AzureFunctionApp@1
+  inputs:
+    azureSubscription: '722ee350-50cf-4a79-b6c5-c32d3555b287'
+    appType: 'functionApp' # default is functionApp
+    appName: 'Test'
+    package: $(System.ArtifactsDirectory)/**/*.zip
